@@ -108,7 +108,7 @@
 <meta property="og:image" content="http://ezerror.github.io/posts/da7354e/spring_architecture.png">
 <meta property="og:image" content="http://ezerror.github.io/posts/da7354e/old.png">
 <meta property="og:image" content="http://ezerror.github.io/posts/da7354e/1567329063980.png">
-<meta property="og:updated_time" content="2019-09-01T10:29:07.925Z">
+<meta property="og:updated_time" content="2019-09-02T15:49:36.906Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring01--&gt;初出茅庐">
 <meta name="twitter:description" content="扩展： Spring Ioc理解  Spring 概述Spring 概述[没啥好看的]spring 是什么Spring是分层的 Java SE/EE应用 full-stack 轻量级开源框架，以 IoC（Inverse Of Control:反转控制）和 AOP（Aspect Oriented Programming:面向切面编程）为内核，提供了展现层 Spring MVC 和持久层 Sprin">
@@ -422,7 +422,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2.6k 字
+                  4.7k 字
                 </span>
               
 
@@ -438,7 +438,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  9 分钟
+                  18 分钟
                 </span>
               
             </div>
@@ -542,7 +542,7 @@
 <p>那么，这个读取配置文件，创建和获取三层对象的类就是工厂。 </p>
 <h4 id="控制反转-Inversion-Of-Control"><a href="#控制反转-Inversion-Of-Control" class="headerlink" title="控制反转-Inversion Of Control"></a>控制反转-Inversion Of Control</h4><p>上一小节解耦的思路有 2 个问题：</p>
 <blockquote>
-<p><strong>1. 存哪去？</strong>i</p>
+<p><strong>1. 存哪去？</strong>🤨</p>
 </blockquote>
 <p>由于我们是很多对象，肯定要找个集合来存。这时候有 Map 和 List 供选择。     </p>
 <p>到底选 Map 还是 List 就看我们有没有查找需求。有查找需求，选 Map。  </p>
@@ -557,6 +557,169 @@
 <p>现在： 我们获取对象时，同时跟工厂要，有工厂为我们查找或者创建对象。是被动的。 </p>
 <p><img src="/posts/da7354e/1567329063980.png" alt="1567329063980"></p>
 <p>这种被动接收的方式获取对象的思想就是控制反转，它是 spring 框架的核心之一。</p>
+<p>明确 ioc 的作用：<br>削减计算机程序的耦合(解除我们代码中的依赖关系)。        </p>
+<h1 id="使用-spring-的-IOC-解决程序耦合"><a href="#使用-spring-的-IOC-解决程序耦合" class="headerlink" title="使用 spring 的 IOC 解决程序耦合"></a>使用 spring 的 IOC 解决程序耦合</h1><blockquote>
+<p>开发环境准备：</p>
+<p>操作系统：WINDOWS10</p>
+<p>开发工具：IntelliJ IDEA 2019.1</p>
+<p>构建工具：MAVEN 3.6</p>
+</blockquote>
+<h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><ul>
+<li><code>POM</code>文件添加依赖</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.0.2.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建业务层接口和实现类</li>
+</ul>
+<blockquote>
+<p>IAccountService.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 账户的业务层接口</span></span><br><span class="line"><span class="comment">* <span class="doctag">@author</span> ezerror</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Company</span> http://www.ezerror.github.io</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IAccountService</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 保存账户（此处只是模拟，并不是真的要保存）</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">saveAccount</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>AccountServiceImpl.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 账户的业务层实现类</span></span><br><span class="line"><span class="comment">* <span class="doctag">@author</span> ezerror</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Company</span> http://www.ezerror.github.io</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccountServiceImpl</span> <span class="keyword">implements</span> <span class="title">IAccountService</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> IAccountDao accountDao = <span class="keyword">new</span> AccountDaoImpl();<span class="comment">//此处的依赖关系有待解决</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">saveAccount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        accountDao.saveAccount();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建持久层接口和实现类</li>
+</ul>
+<blockquote>
+<p>IAccountDao.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 账户的持久层接口</span></span><br><span class="line"><span class="comment">* <span class="doctag">@author</span> ezerror</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Company</span> http://www.ezerror.github.io</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IAccountDao</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 保存账户</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">saveAccount</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>AccountDaoImpl.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 账户的持久层实现类</span></span><br><span class="line"><span class="comment">* <span class="doctag">@author</span> ezerror</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Company</span> http://www.ezerror.github.io</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccountDaoImpl</span> <span class="keyword">implements</span> <span class="title">IAccountDao</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">saveAccount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"保存了账户"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>模拟显示层</li>
+</ul>
+<blockquote>
+<p>Client.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 用户界面显示层</span></span><br><span class="line"><span class="comment">* <span class="doctag">@author</span> ezerror</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Company</span> http://www.ezerror.github.io</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        IAccountService accountService=<span class="keyword">new</span> AccountServiceImpl();<span class="comment">//此处的依赖关系有待解决</span></span><br><span class="line">        accountService.saveAccount();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>运行结果</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">保存了账户</span><br><span class="line">Process finished with exit code 0</span><br></pre></td></tr></table></figure>
+
+<p>以上编写的三层代码是常规调用实现类的方式实现实体创建，从显示层到业务层，再从业务层到持久层，都是通过new的方式实例化，这样如果new的对象不存在，运行时则会报编译错误，如我将AccountDaoImpl.java删除后，报错信息如下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Error:(16, 42) java: 找不到符号</span><br><span class="line">  符号: 类 AccountDaoImpl</span><br><span class="line">  位置: 类 com.ezerror.service.impl.AccountServiceImpl</span><br></pre></td></tr></table></figure>
+
+<p>这样耦合性肯定是比较强的，为了解决这个问题，我们动手模拟一个Spring的工厂，利用反射的方式，尝试可不可以将耦合降下来。</p>
+<h2 id="Bean工厂"><a href="#Bean工厂" class="headerlink" title="Bean工厂"></a>Bean工厂</h2><h3 id="简单的Bean工厂"><a href="#简单的Bean工厂" class="headerlink" title="简单的Bean工厂"></a>简单的Bean工厂</h3><blockquote>
+<p>BeanFactory.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 生成实体的工厂类</span></span><br><span class="line"><span class="comment">* <span class="doctag">@author</span> ezerror</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Company</span> http://www.ezerror.github.io</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">getBean</span><span class="params">(String classPath)</span></span>&#123;</span><br><span class="line">        Object bean=<span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            bean=Class.forName(classPath).newInstance();</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> bean;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个工厂中，我们给它所需类的全类路径，它就返回给我们那个类的实体。</p>
+<ul>
+<li>修改原来的代码——<code>AccountServiceImpl</code>与<code>Client</code></li>
+</ul>
+<blockquote>
+<p>AccountServiceImpl.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> String accountDaoImplClassPath=<span class="string">"com.ezerror.dao.impl.AccountDaoImpl"</span>;</span><br><span class="line"><span class="keyword">private</span> IAccountDao accountDao = </span><br><span class="line">       (IAccountDao) BeanFactory.getBean(accountDaoImplClassPath);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Client.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String accountServiceImplClassPath=<span class="string">"com.ezerror.service.impl.AccountServiceImpl"</span>;</span><br><span class="line">IAccountService accountService= </span><br><span class="line">            (IAccountService) BeanFactory.getBean(accountServiceImplClassPath);</span><br></pre></td></tr></table></figure>
+
+<p>运行也是成功的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">保存了账户</span><br><span class="line"></span><br><span class="line">Process finished with exit code 0</span><br></pre></td></tr></table></figure>
+
+<p>且将<code>AccountDaoImpl.java</code>删除后运行，错误也从编译错误变成了异常</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">java.lang.ClassNotFoundException: com.ezerror.dao.impl.AccountDaoImpl</span><br><span class="line">	at java.net.URLClassLoader.findClass(URLClassLoader.java:382)</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">Exception in thread &quot;main&quot; java.lang.NullPointerException</span><br><span class="line">	at com.ezerror.service.impl.AccountServiceImpl.saveAccount(AccountServiceImpl.java:22)</span><br><span class="line">	at com.ezerror.ui.Client.main(Client.java:20)</span><br><span class="line"></span><br><span class="line">Process finished with exit code 1</span><br></pre></td></tr></table></figure>
+
+<p><strong>但是这种用这种方式生成Bean也有一个问题，那就是类的全路径名是写死在Java代码中的的，如果类的位置或名称发生了变化，修改起来显然就相当不方便。</strong></p>
+<p><strong>那要如何解决呢？</strong>🤔</p>
+<h3 id="配置文件型的Bean工厂"><a href="#配置文件型的Bean工厂" class="headerlink" title="配置文件型的Bean工厂"></a>配置文件型的Bean工厂</h3><p>想要解决上个问题，就需要引入另一个东西——<strong>配置文件</strong>。</p>
+<p>首先要添加一个资源文件<code>bean.properties</code>，我们将在这个文件中添加类的全路径类名等信息。</p>
+<p>注：Spring使用的<code>xml</code>文件，为方便这里使用<code>properties</code></p>
+<blockquote>
+<p>格式为：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BeanName=全路径类名</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>bean.properties</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">accountService=com.ezerror.service.impl.AccountServiceImpl</span><br><span class="line">accountDao=com.ezerror.dao.impl.AccountDaoImpl</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>BeanFactory.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanFactory</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Properties props;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//static块读取properties文件信息</span></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            props=<span class="keyword">new</span> Properties();</span><br><span class="line">            InputStream in= BeanFactory.class.getClassLoader().getResourceAsStream(<span class="string">"bean.properties"</span>);</span><br><span class="line">            props.load(in);</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">   <span class="comment">//通过beanName获取全路径类名，再反射为bean</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">getBean</span><span class="params">(String beanName)</span></span>&#123;</span><br><span class="line">        Object bean=<span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            String beanPath=props.getProperty(beanName);</span><br><span class="line">            bean=Class.forName(beanPath).newInstance();</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> bean;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Client.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        IAccountService accountService= (IAccountService) BeanFactory.getBean(<span class="string">"accountService"</span>);</span><br><span class="line">        accountService.saveAccount();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>AccountServiceImpl.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccountServiceImpl</span> <span class="keyword">implements</span> <span class="title">IAccountService</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> IAccountDao accountDao =</span><br><span class="line">            (IAccountDao) BeanFactory.getBean(<span class="string">"accountDao"</span>);</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">saveAccount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        accountDao.saveAccount();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同样可以成功运行，类名称路径需要改变时，也只需到bean.propertites中修改相关配置。</p>
+<p><strong>虽说已经通过反射解决了一些问题，但还是能够进一步的提升。</strong></p>
+<p><strong>比如下面这个情景</strong>😀</p>
+<p>我们修改一些代码再运行看看</p>
+<blockquote>
+<p>AccountDaoImpl.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccountDaoImpl</span> <span class="keyword">implements</span> <span class="title">IAccountDao</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">saveAccount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(i++);</span><br><span class="line">        System.out.println(<span class="string">"保存了账户"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Client.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">            IAccountService accountService= (IAccountService) BeanFactory.getBean(<span class="string">"accountService"</span>);</span><br><span class="line">            accountService.saveAccount();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们给Client增加了一个循环，让它多调用几次接口，同时再实现类中定义了一个公用变量，每调用一次就加一并输出。</p>
+<blockquote>
+<p>运行结果</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">0</span><br><span class="line">保存了账户</span><br><span class="line">0</span><br><span class="line">保存了账户</span><br><span class="line">0</span><br><span class="line">保存了账户</span><br><span class="line">0</span><br><span class="line">保存了账户</span><br><span class="line">0</span><br><span class="line">保存了账户</span><br><span class="line"></span><br><span class="line">Process finished with exit code 0</span><br></pre></td></tr></table></figure>
+
+<p>发现每次调用接口，<code>i</code>都重新变为了0。</p>
+<p>将这些代码注释，再在<code>AccountServiceImpl</code>将从工厂获得的实例输出一下。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccountServiceImpl</span> <span class="keyword">implements</span> <span class="title">IAccountService</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> IAccountDao accountDao =</span><br><span class="line">            (IAccountDao) BeanFactory.getBean(<span class="string">"accountDao"</span>);</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">saveAccount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(accountDao);</span><br><span class="line">        accountDao.saveAccount();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>运行结果</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">com.ezerror.dao.impl.AccountDaoImpl@4554617c</span><br><span class="line">com.ezerror.dao.impl.AccountDaoImpl@74a14482</span><br><span class="line">com.ezerror.dao.impl.AccountDaoImpl@1540e19d</span><br><span class="line">com.ezerror.dao.impl.AccountDaoImpl@677327b6</span><br><span class="line">com.ezerror.dao.impl.AccountDaoImpl@14ae5a5</span><br><span class="line"></span><br><span class="line">Process finished with exit code 0</span><br></pre></td></tr></table></figure>
+
+<p><strong>可见每次运行都会重新生成一个实例，在对<code>Service</code>或是<code>Dao</code>这些不需要多个实例的情况，我们显然只需要将一个实例，多次使用就可以了，这样每次调用都重新生成自然会造成资源的浪费。</strong></p>
+<p><strong>那么如何处理呢(+_+)?</strong></p>
+<h3 id="优化后的Bean工厂"><a href="#优化后的Bean工厂" class="headerlink" title="优化后的Bean工厂"></a>优化后的Bean工厂</h3><p>上个问题是因为每次Bean工厂，都会重新通过反射生成实例，那么可不可以先将这些生成的实例放在一个容器里存放起来，每次调用后再取出来呢。</p>
+<blockquote>
+<p>BeanFactory.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanFactory</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Properties props;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String,Object&gt; beans;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//static块读取properties文件信息,并将其实例化放入beans中</span></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            props=<span class="keyword">new</span> Properties();</span><br><span class="line">            InputStream in= BeanFactory.class.getClassLoader().getResourceAsStream(<span class="string">"bean.properties"</span>);</span><br><span class="line">            props.load(in);</span><br><span class="line">            beans=<span class="keyword">new</span> HashMap&lt;String, Object&gt;();</span><br><span class="line">            Enumeration keys=props.keys();</span><br><span class="line">            <span class="keyword">while</span> (keys.hasMoreElements())&#123;</span><br><span class="line">                String key=keys.nextElement().toString();</span><br><span class="line">                String beanPath=props.getProperty(key);</span><br><span class="line">                Object value=Class.forName(beanPath).newInstance();</span><br><span class="line">                beans.put(key,value);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span>  Object <span class="title">getBean</span><span class="params">(String beanName)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> beans.get(beanName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在每次调用<code>BeanFactory</code>时，都从<code>beans</code> (<code>Map&lt;String,Object&gt;</code>类型)中通过<strong>键值对</strong>的方式获取实例，而beans在运行<code>BeanFactory</code>时便将所有在配置文件中配置的类都先实例化后存放起来，<strong>通过这种方法每次调用都是从beans中取，就可以解决上个问题了。</strong></p>
+<p><strong>而应用整个生命周期内只能存在一个实例，这也正是<label style="color:red">单例</label>的体现。</strong></p>
+<blockquote>
+<p>运行结果</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">0</span><br><span class="line">保存了账户</span><br><span class="line">1</span><br><span class="line">保存了账户</span><br><span class="line">2</span><br><span class="line">保存了账户</span><br><span class="line">3</span><br><span class="line">保存了账户</span><br><span class="line">4</span><br><span class="line">保存了账户</span><br><span class="line"></span><br><span class="line">Process finished with exit code 0</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>不过还有几个小问题</strong></p>
+<p><strong>如果在BeanFactory实例的类，长时间没有被使用，是不是也会造成资源浪费呢，这又是如何解决呢，需要解决吗😒</strong></p>
+</blockquote>
+<p>答案便是Java的<strong>垃圾回收机制</strong>，因为这个机制的存在，我们不必担心长时间没被使用的实例的归属，因为它们都会被当作垃圾处理掉。</p>
+<blockquote>
+<p><strong>第二个问题，在上述情况下，bean在还未被请求就被工厂提前实例化，且只能为单例，如何个性化每个bean的调用方式，和实例化时机呢？</strong></p>
+</blockquote>
+<p>答案便是继续在配置文件中增加条件，并在<code>BeanFactory</code>予以反馈，不当然我们自然不必重写这些复杂的代码，因为已经有了一个现成的方案，<code>Spring</code>已经考虑到了更加广泛的情况，我们需要的做的就是学习要如何使用<code>Spring</code>。</p>
 
       
     </div>
@@ -762,7 +925,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-概述"><span class="nav-number">1.</span> <span class="nav-text">Spring 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-概述-没啥好看的"><span class="nav-number">1.1.</span> <span class="nav-text">Spring 概述[没啥好看的]</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-是什么"><span class="nav-number">1.1.1.</span> <span class="nav-text">spring 是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-的发展历程"><span class="nav-number">1.1.2.</span> <span class="nav-text">Spring 的发展历程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-的优势"><span class="nav-number">1.1.3.</span> <span class="nav-text">spring 的优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-的体系结构"><span class="nav-number">1.1.4.</span> <span class="nav-text">spring 的体系结构</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IoC-的概念和作用"><span class="nav-number">2.</span> <span class="nav-text">IoC 的概念和作用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#程序的耦合和解耦-总得知道耦合是个啥玩意吧"><span class="nav-number">2.1.</span> <span class="nav-text">程序的耦合和解耦[总得知道耦合是个啥玩意吧]</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是程序的耦合"><span class="nav-number">2.1.1.</span> <span class="nav-text">什么是程序的耦合</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#内聚与耦合"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">内聚与耦合</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决程序耦合的思路"><span class="nav-number">2.1.2.</span> <span class="nav-text">解决程序耦合的思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工厂模式解耦"><span class="nav-number">2.1.3.</span> <span class="nav-text">工厂模式解耦</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#控制反转-Inversion-Of-Control"><span class="nav-number">2.1.3.1.</span> <span class="nav-text">控制反转-Inversion Of Control</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-概述"><span class="nav-number">1.</span> <span class="nav-text">Spring 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-概述-没啥好看的"><span class="nav-number">1.1.</span> <span class="nav-text">Spring 概述[没啥好看的]</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-是什么"><span class="nav-number">1.1.1.</span> <span class="nav-text">spring 是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-的发展历程"><span class="nav-number">1.1.2.</span> <span class="nav-text">Spring 的发展历程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-的优势"><span class="nav-number">1.1.3.</span> <span class="nav-text">spring 的优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-的体系结构"><span class="nav-number">1.1.4.</span> <span class="nav-text">spring 的体系结构</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IoC-的概念和作用"><span class="nav-number">2.</span> <span class="nav-text">IoC 的概念和作用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#程序的耦合和解耦-总得知道耦合是个啥玩意吧"><span class="nav-number">2.1.</span> <span class="nav-text">程序的耦合和解耦[总得知道耦合是个啥玩意吧]</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是程序的耦合"><span class="nav-number">2.1.1.</span> <span class="nav-text">什么是程序的耦合</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#内聚与耦合"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">内聚与耦合</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决程序耦合的思路"><span class="nav-number">2.1.2.</span> <span class="nav-text">解决程序耦合的思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工厂模式解耦"><span class="nav-number">2.1.3.</span> <span class="nav-text">工厂模式解耦</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#控制反转-Inversion-Of-Control"><span class="nav-number">2.1.3.1.</span> <span class="nav-text">控制反转-Inversion Of Control</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用-spring-的-IOC-解决程序耦合"><span class="nav-number">3.</span> <span class="nav-text">使用 spring 的 IOC 解决程序耦合</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前期准备"><span class="nav-number">3.1.</span> <span class="nav-text">前期准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bean工厂"><span class="nav-number">3.2.</span> <span class="nav-text">Bean工厂</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单的Bean工厂"><span class="nav-number">3.2.1.</span> <span class="nav-text">简单的Bean工厂</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件型的Bean工厂"><span class="nav-number">3.2.2.</span> <span class="nav-text">配置文件型的Bean工厂</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化后的Bean工厂"><span class="nav-number">3.2.3.</span> <span class="nav-text">优化后的Bean工厂</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -815,7 +978,7 @@
     <!-- 博客字数统计 -->
     <span class="site-pv">
       <i class="fa fa-pencil"></i>
-      博客全站共： <span class="post-count">4.7k</span> 字
+      博客全站共： <span class="post-count">6.8k</span> 字
     </span>
 </div>
 <!-- 新增访客统计代码 END-->
