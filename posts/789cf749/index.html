@@ -97,18 +97,18 @@
 
 
 
-<meta name="description" content="脏读脏读 ：脏读就是指当一个事务正在访问数据，并且对数据进行了修改，而这种修改还没有提交到数据库中，这时，另外一个事务也访问这个数据，然后使用了这个数据。  1.Mary的原工资为1000, 财务人员将Mary的工资改为了8000(但未提交事务)2.Mary读取自己的工资 ,发现自己的工资变为了8000，欢天喜地！3.而财务发现操作有误，回滚了事务,Mary的工资又变为了1000">
+<meta name="description" content="脏读脏读 ：脏读就是指当一个事务正在访问数据，并且对数据进行了修改，而这种修改还没有提交到数据库中，这时，另外一个事务也访问这个数据，然后使用了这个数据。">
 <meta name="keywords" content="sql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="脏读、不可重复读、幻影读">
 <meta property="og:url" content="http://ezerror.github.io/posts/789cf749/index.html">
 <meta property="og:site_name" content="ezerror&#39;s Blog">
-<meta property="og:description" content="脏读脏读 ：脏读就是指当一个事务正在访问数据，并且对数据进行了修改，而这种修改还没有提交到数据库中，这时，另外一个事务也访问这个数据，然后使用了这个数据。  1.Mary的原工资为1000, 财务人员将Mary的工资改为了8000(但未提交事务)2.Mary读取自己的工资 ,发现自己的工资变为了8000，欢天喜地！3.而财务发现操作有误，回滚了事务,Mary的工资又变为了1000">
+<meta property="og:description" content="脏读脏读 ：脏读就是指当一个事务正在访问数据，并且对数据进行了修改，而这种修改还没有提交到数据库中，这时，另外一个事务也访问这个数据，然后使用了这个数据。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-14T13:16:08.115Z">
+<meta property="og:updated_time" content="2019-09-14T13:21:40.385Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="脏读、不可重复读、幻影读">
-<meta name="twitter:description" content="脏读脏读 ：脏读就是指当一个事务正在访问数据，并且对数据进行了修改，而这种修改还没有提交到数据库中，这时，另外一个事务也访问这个数据，然后使用了这个数据。  1.Mary的原工资为1000, 财务人员将Mary的工资改为了8000(但未提交事务)2.Mary读取自己的工资 ,发现自己的工资变为了8000，欢天喜地！3.而财务发现操作有误，回滚了事务,Mary的工资又变为了1000">
+<meta name="twitter:description" content="脏读脏读 ：脏读就是指当一个事务正在访问数据，并且对数据进行了修改，而这种修改还没有提交到数据库中，这时，另外一个事务也访问这个数据，然后使用了这个数据。">
 
 
 
@@ -455,9 +455,9 @@
       
 
       
-        <a id="more"></a>
+        <h1 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h1><p>脏读 ：脏读就是指当一个事务正在访问数据，并且对数据进行了修改，而这种修改还没有提交到数据库中，这时，另外一个事务也访问这个数据，然后使用了这个数据。</p>
+<a id="more"></a>
 
-<h1 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h1><p>脏读 ：脏读就是指当一个事务正在访问数据，并且对数据进行了修改，而这种修改还没有提交到数据库中，这时，另外一个事务也访问这个数据，然后使用了这个数据。</p>
 <blockquote>
 <p>1.Mary的原工资为1000, 财务人员将Mary的工资改为了8000(但未提交事务)<br>2.Mary读取自己的工资 ,发现自己的工资变为了8000，欢天喜地！<br>3.而财务发现操作有误，回滚了事务,Mary的工资又变为了1000          </p>
 </blockquote>
