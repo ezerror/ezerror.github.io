@@ -84,7 +84,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="spring,">
 
 
 
@@ -97,17 +97,18 @@
 
 
 
-<meta name="description" content="title: spring04–&amp;gt;驾轻就熟abbrlink: 11cebf14date: 2019-09-14 14:05:03tags: spring Spring中的jdbcTempleteSpring对数据库的操作在jdbc上面做了深层次的封装，使用spring的注入功能，可以把DataSource注册到JdbcTemplate之中。 需要的jar包spring-jdbc和spring">
+<meta name="description" content="Spring中的jdbcTempleteSpring对数据库的操作在jdbc上面做了深层次的封装，使用spring的注入功能，可以把DataSource注册到JdbcTemplate之中。">
+<meta name="keywords" content="spring">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ezerror&#39;s Blog">
-<meta property="og:url" content="http://ezerror.github.io/posts/0/index.html">
+<meta property="og:title" content="spring04--&gt;驾轻就熟">
+<meta property="og:url" content="http://ezerror.github.io/posts/11cebf14/index.html">
 <meta property="og:site_name" content="ezerror&#39;s Blog">
-<meta property="og:description" content="title: spring04–&amp;gt;驾轻就熟abbrlink: 11cebf14date: 2019-09-14 14:05:03tags: spring Spring中的jdbcTempleteSpring对数据库的操作在jdbc上面做了深层次的封装，使用spring的注入功能，可以把DataSource注册到JdbcTemplate之中。 需要的jar包spring-jdbc和spring">
+<meta property="og:description" content="Spring中的jdbcTempleteSpring对数据库的操作在jdbc上面做了深层次的封装，使用spring的注入功能，可以把DataSource注册到JdbcTemplate之中。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-14T13:13:57.153Z">
+<meta property="og:updated_time" content="2019-09-14T13:18:08.651Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ezerror&#39;s Blog">
-<meta name="twitter:description" content="title: spring04–&amp;gt;驾轻就熟abbrlink: 11cebf14date: 2019-09-14 14:05:03tags: spring Spring中的jdbcTempleteSpring对数据库的操作在jdbc上面做了深层次的封装，使用spring的注入功能，可以把DataSource注册到JdbcTemplate之中。 需要的jar包spring-jdbc和spring">
+<meta name="twitter:title" content="spring04--&gt;驾轻就熟">
+<meta name="twitter:description" content="Spring中的jdbcTempleteSpring对数据库的操作在jdbc上面做了深层次的封装，使用spring的注入功能，可以把DataSource注册到JdbcTemplate之中。">
 
 
 
@@ -137,13 +138,13 @@
 
 
 
-  <link rel="canonical" href="http://ezerror.github.io/posts/0/">
+  <link rel="canonical" href="http://ezerror.github.io/posts/11cebf14/">
 
 
 
 
 
-  <title> | ezerror's Blog</title>
+  <title>spring04-->驾轻就熟 | ezerror's Blog</title>
   
 
 
@@ -346,7 +347,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://ezerror.github.io/posts/0/">
+    <link itemprop="mainEntityOfPage" href="http://ezerror.github.io/posts/11cebf14/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ezerror">
@@ -363,7 +364,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline"></h1>
+          <h1 class="post-title" itemprop="name headline">spring04-->驾轻就熟</h1>
         
 
         <div class="post-meta">
@@ -394,8 +395,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/posts/0/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/posts/0/" itemprop="commentsCount"></span>
+                <a href="/posts/11cebf14/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/posts/11cebf14/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -454,8 +455,9 @@
       
 
       
-        <p>title: spring04–&gt;驾轻就熟<br>abbrlink: 11cebf14<br>date: 2019-09-14 14:05:03<br>tags: spring</p>
-<h1 id="Spring中的jdbcTemplete"><a href="#Spring中的jdbcTemplete" class="headerlink" title="Spring中的jdbcTemplete"></a>Spring中的jdbcTemplete</h1><p>Spring对数据库的操作在jdbc上面做了深层次的封装，使用spring的注入功能，可以把DataSource注册到JdbcTemplate之中。</p>
+        <h1 id="Spring中的jdbcTemplete"><a href="#Spring中的jdbcTemplete" class="headerlink" title="Spring中的jdbcTemplete"></a>Spring中的jdbcTemplete</h1><p>Spring对数据库的操作在jdbc上面做了深层次的封装，使用spring的注入功能，可以把DataSource注册到JdbcTemplate之中。</p>
+<a id="more"></a>
+
 <h2 id="需要的jar包"><a href="#需要的jar包" class="headerlink" title="需要的jar包"></a>需要的jar包</h2><p><code>spring-jdbc</code>和<code>spring-tx</code></p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>5.0.2.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-tx<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>5.0.2.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -550,7 +552,7 @@
 <li><p><code>ISOLATION_REPEATABLE_READ</code><br>是否读取其他事务提交修改后的数据，解决不可重复读问题（MySQL默认级别）</p>
 </li>
 <li><p><code>ISOLATION_SERIALIZABLE</code></p>
-<p>是否读取其他事务提交添加后的数据，解决幻影读问题</p>
+<p>是否读取其他事务提交添加后的数据，解决<a href="../../posts/789cf749/">幻影读</a>问题</p>
 </li>
 </ul>
 <h3 id="事务的传播行为"><a href="#事务的传播行为" class="headerlink" title="事务的传播行为"></a>事务的传播行为</h3><p><strong><code>REQUIRED</code>:如果当前没有事务，就新建一个事务，如果已经存在一个事务中，加入到这个事务中。一般的选择（默认值）</strong><br><strong><code>SUPPORTS</code>:支持当前事务，如果当前没有事务，就以非事务方式执行（没有事务）</strong><br><code>MANDATORY</code>：使用当前的事务，如果当前没有事务，就抛出异常<br><code>REQUERS_NEW</code>:新建事务，如果当前在事务中，把当前事务挂起。<br><code>NOT_SUPPORTED</code>:以非事务方式执行操作，如果当前存在事务，就把当前事务挂起<br><code>NEVER</code>:以非事务方式运行，如果当前存在事务，抛出异常<br><code>NESTED</code>:如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行 REQUIRED 类似的操作。</p>
@@ -622,6 +624,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/spring/" rel="tag"><i class="fa fa-tag"></i> spring</a>
+          
+        </div>
       
 
       
