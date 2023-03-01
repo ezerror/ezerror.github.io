@@ -11,10 +11,18 @@
         <content type="html"><![CDATA[<h2 id="完成一个编程语言需要做什么？"><a href="#完成一个编程语言需要做什么？" class="headerlink" title="完成一个编程语言需要做什么？"></a>完成一个编程语言需要做什么？</h2><p>我们把整个编程语言的工作抽象一下，编程语言需要干什么？</p><ul><li>我们在一个文本中写了几行代码，然后通过编译器将它编译成了字节码文件去执行，那么我们的工作其实就是要把文本转化为字节码，说起来很轻松，但是实际上需要解决很多问题</li></ul><p>在实际的实现中，我们大致可以分为三个部分</p><table><thead><tr><th>模块</th><th>输入</th><th>输出</th></tr></thead><tbody><tr><td>词法分析器(Lexer)</td><td>代码(纯文本)</td><td>符号群(Tokens)</td></tr><tr><td>解析器(Parser)</td><td>符号群(Tokens)</td><td>抽象语法树(AST)</td></tr><tr><td>编译器(Compiler)</td><td>抽象语法树(AST)</td><td>字节码文件</td></tr></tbody></table><p>这几个模块或许你们还并不熟悉，这些部分有些需要我们手撸代码，有些则是有现成的工具可以利用，相关的概念网上可以查到很多详细的资料，我们这边不会进行详细的解释，实际上你也并不需要了解这些东西到底是什么，在我们实现它的时候，你就会自然而然地了解<br>虽说如此，我们还是有必要通过一个例子来解释整个过程</p><h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><pre class="mermaid">graph LR        A["        Input Code<br /><br />        int x=a*5+2;        "]        B["          Tokens<br /><br />{type,int},          <br />{identifier,x}          <br />{operator,=}          <br />{identifier,a}          <br />{operator,#42;}          <br />{number,5}          <br />{operator,+}          <br />{number,2}          <br />{keyword,;}          "]          A-->|LEXER|B          B-->|PARSER|EQUALS        subgraph Abstract Syntax Tree        EQUALS["="]        VARX["x"]        VARA["a"]        MULTIPLY["#42;"]        PLUS["+"]        FIVE[5]        TWO[2]        EQUALS---PLUS        EQUALS---VARX        PLUS---TWO        PLUS---MULTIPLY        MULTIPLY---FIVE        MULTIPLY---VARA        end</pre><p>词法分析器接受文本输入并将其每个词标记出来，代码于是变成了一个符号列表。符号还与有助于进一步分析的类型相关联。<br>符号被传递给解析器，解析器负责将符号组织成称为<strong>抽象语法树的</strong>层次结构。树决定了代码的执行顺序。Compiler 编译器遍历树并将其映射为有效的字节码指令</p>]]></content>
       
       
+      <categories>
+          
+          <category> 动手写编程语言 </category>
+          
+      </categories>
+      
       
         <tags>
             
-            <tag> 一个新的编程语言 </tag>
+            <tag> 后端 </tag>
+            
+            <tag> Java </tag>
             
         </tags>
       
@@ -30,10 +38,18 @@
         <content type="html"><![CDATA[<p>我打算开始从零开始编写一个编程语言，因为我的主编程语言是Java，所以我打算做一个类似kotlin或者scala的jvm语言，这有一个好处，那就是这个语言诞生之初就可以调用很多Java的库，相当于为它赋予了一定的生产能力，当然这个语言并不一定要有实际价值，不过创建语言的这个过程一定会很有意义<br>为什么选择做JVM语言 ：</p><ul><li>我熟悉Java，用Java来编写我会更加上手</li><li>JVM 语言可以相互混合，像kotlin也是可以调用java库的</li><li>Java有些方面需要优化，相对于一些其它的编程语言，Java的语法相对更加臃肿(虽然Java新特性一直在持续引入语法糖来改进这些问题)</li></ul><p>目标是做到什么程度：</p><ul><li>这个语言会有一个独立的文件后缀</li><li>可以编写实际的应用程序</li><li>可能会针对某些IDE做一些特定语法高亮的支持插件，使它更像样</li><li>如果可以在某些方面能比用Java来编写程序更有效率那就更好了</li></ul><p>好了，现在先给这个编程语言起个名字吧，起名总是一件很困难的事，当然我们可以用一些工具来随机一个名字出来 <a href="https://www.namegenerators.me/software-names/678/">https://www.namegenerators.me/software-names/678/</a></p><p>不过我最终没有这么做，它最终取名叫做Qing，因为这只是一个玩具语言，肯定会比已经发展了很久的语言老前辈轻量，另外它设计之初也是希望用起来很轻便</p>]]></content>
       
       
+      <categories>
+          
+          <category> 动手写编程语言 </category>
+          
+      </categories>
+      
       
         <tags>
             
-            <tag> 一个新的编程语言 </tag>
+            <tag> 后端 </tag>
+            
+            <tag> Java </tag>
             
         </tags>
       
