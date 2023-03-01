@@ -16,7 +16,7 @@
 <meta property="og:description" content="完成一个编程语言需要做什么？我们把整个编程语言的工作抽象一下，编程语言需要干什么？  我们在一个文本中写了几行代码，然后通过编译器将它编译成了字节码文件去执行，那么我们的工作其实就是要把文本转化为字节码，说起来很轻松，但是实际上需要解决很多问题  在实际的实现中，我们大致可以分为三个部分    模块 输入 输出    词法分析器(Lexer) 代码(纯文本) 符号群(Tokens)   解析器(P">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-02-20T17:22:03.000Z">
-<meta property="article:modified_time" content="2023-03-01T15:31:16.161Z">
+<meta property="article:modified_time" content="2023-03-01T15:56:06.826Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="一个新的编程语言">
 <meta name="twitter:card" content="summary">
@@ -554,7 +554,7 @@
 						
 						<div class="post-meta-detail post-meta-detail-time">
 							<i class="fa fa-clock-o" aria-hidden="true"></i>
-							<time title="发布于 2023-2-21 1:22:03 | 编辑于 2023-3-1 23:31:16">2023-2-21 1:22
+							<time title="发布于 2023-2-21 1:22:03 | 编辑于 2023-3-1 23:56:06">2023-2-21 1:22
 							</time>
 						</div>
 					
@@ -573,7 +573,7 @@
 						
 						<div class="post-meta-detail post-meta-detail-words">
 							<i class="fa fa-file-word-o" aria-hidden="true"></i>
-							568 字
+							498 字
 						</div>
 					
 						
@@ -581,7 +581,7 @@
 						
 						<div class="post-meta-detail post-meta-detail-readingtime">
 							<i class="fa fa-hourglass-end" aria-hidden="true"></i>
-							2 分钟
+							1 分钟
 						</div>
 					
 		</div>
@@ -619,7 +619,39 @@
 </tr>
 </tbody></table>
 <p>这几个模块或许你们还并不熟悉，这些部分有些需要我们手撸代码，有些则是有现成的工具可以利用，相关的概念网上可以查到很多详细的资料，我们这边不会进行详细的解释，实际上你也并不需要了解这些东西到底是什么，在我们实现它的时候，你就会自然而然地了解<br>虽说如此，我们还是有必要通过一个例子来解释整个过程</p>
-<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">        A[&quot;</span><br><span class="line">        Input Code&lt;br /&gt;&lt;br /&gt;</span><br><span class="line">        int x=a*5+2;</span><br><span class="line">        &quot;]</span><br><span class="line">        B[&quot;</span><br><span class="line">          Tokens&lt;br /&gt;&lt;br /&gt;&#123;type,int&#125;,</span><br><span class="line">          &lt;br /&gt;&#123;identifier,x&#125;</span><br><span class="line">          &lt;br /&gt;&#123;operator,=&#125;</span><br><span class="line">          &lt;br /&gt;&#123;identifier,a&#125;</span><br><span class="line">          &lt;br /&gt;&#123;operator,#42;&#125;</span><br><span class="line">          &lt;br /&gt;&#123;number,5&#125;</span><br><span class="line">          &lt;br /&gt;&#123;operator,+&#125;</span><br><span class="line">          &lt;br /&gt;&#123;number,2&#125;</span><br><span class="line">          &lt;br /&gt;&#123;keyword,;&#125;</span><br><span class="line">          &quot;]</span><br><span class="line">          A--&gt;|LEXER|B</span><br><span class="line">          B--&gt;|PARSER|EQUALS</span><br><span class="line">        subgraph Abstract Syntax Tree</span><br><span class="line">        EQUALS[&quot;=&quot;]</span><br><span class="line">        VARX[&quot;x&quot;]</span><br><span class="line">        VARA[&quot;a&quot;]</span><br><span class="line">        MULTIPLY[&quot;#42;&quot;]</span><br><span class="line">        PLUS[&quot;+&quot;]</span><br><span class="line">        FIVE[5]</span><br><span class="line">        TWO[2]</span><br><span class="line">        EQUALS---PLUS</span><br><span class="line">        EQUALS---VARX</span><br><span class="line">        PLUS---TWO</span><br><span class="line">        PLUS---MULTIPLY</span><br><span class="line">        MULTIPLY---FIVE</span><br><span class="line">        MULTIPLY---VARA</span><br><span class="line">        end</span><br></pre></td></tr></table></figure>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><pre class="mermaid">graph LR
+        A["
+        Input Code<br /><br />
+        int x=a*5+2;
+        "]
+        B["
+          Tokens<br /><br />{type,int},
+          <br />{identifier,x}
+          <br />{operator,=}
+          <br />{identifier,a}
+          <br />{operator,#42;}
+          <br />{number,5}
+          <br />{operator,+}
+          <br />{number,2}
+          <br />{keyword,;}
+          "]
+          A-->|LEXER|B
+          B-->|PARSER|EQUALS
+        subgraph Abstract Syntax Tree
+        EQUALS["="]
+        VARX["x"]
+        VARA["a"]
+        MULTIPLY["#42;"]
+        PLUS["+"]
+        FIVE[5]
+        TWO[2]
+        EQUALS---PLUS
+        EQUALS---VARX
+        PLUS---TWO
+        PLUS---MULTIPLY
+        MULTIPLY---FIVE
+        MULTIPLY---VARA
+        end</pre>
 <p>词法分析器接受文本输入并将其每个词标记出来，代码于是变成了一个符号列表。符号还与有助于进一步分析的类型相关联。<br>符号被传递给解析器，解析器负责将符号组织成称为<strong>抽象语法树的</strong>层次结构。树决定了代码的执行顺序。Compiler 编译器遍历树并将其映射为有效的字节码指令</p>
 
 	</div>
@@ -770,7 +802,30 @@
 		
 
 		
+			<script>
+				var argonEnableCodeHighlight = true;
+			</script>
+			
+<link rel="stylesheet" href="/assets/vendor/highlight/styles/vs2015.css">
 
+		
+
+		
+			<script type="text/javascript" src='https://unpkg.com/mermaid@9.0.0/dist/mermaid.min.js'></script>
+			<script>
+			if (window.mermaid) {
+				var mermaid_config = {
+					startOnLoad: true,
+					theme: '{{theme.mermaid.theme}}',
+					flowchart:{
+						useMaxWidth: false,
+						htmlLabels: true
+					}                
+				}
+				mermaid.initialize(mermaid_config);
+			}
+			</script>
+		
 	</div>
 </div>
 <noscript>

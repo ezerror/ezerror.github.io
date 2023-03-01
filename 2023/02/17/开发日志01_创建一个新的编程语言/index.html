@@ -751,7 +751,30 @@
 		
 
 		
+			<script>
+				var argonEnableCodeHighlight = true;
+			</script>
+			
+<link rel="stylesheet" href="/assets/vendor/highlight/styles/vs2015.css">
 
+		
+
+		
+			<script type="text/javascript" src='https://unpkg.com/mermaid@9.0.0/dist/mermaid.min.js'></script>
+			<script>
+			if (window.mermaid) {
+				var mermaid_config = {
+					startOnLoad: true,
+					theme: '{{theme.mermaid.theme}}',
+					flowchart:{
+						useMaxWidth: false,
+						htmlLabels: true
+					}                
+				}
+				mermaid.initialize(mermaid_config);
+			}
+			</script>
+		
 	</div>
 </div>
 <noscript>
