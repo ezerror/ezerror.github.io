@@ -11,19 +11,19 @@
 	<meta name="description" content="一、提要在本章节我们将在Qing上添加一些功能  声明变量 变量的打印 类型推断  而在本章节结束后，我们要达成的目标则是让如下的代码可以在Qing上运行 var name&#x3D;&quot;Qing&quot;  print name var year &#x3D; 2023print year  二、词法分析2.1、词法规则定义上一章，我们阐述了一个编程语言的三个模块，自然先到我们面前的就是第一个模块词法分析">
 <meta property="og:type" content="article">
 <meta property="og:title" content="开发日志03-第一行代码">
-<meta property="og:url" content="https://ezerror.com/2023/02/25/%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%9703-%E7%AC%AC%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81/index.html">
+<meta property="og:url" content="https://ezerror.com/2023/02/25/Qing03/index.html">
 <meta property="og:site_name" content="听闻栈声">
 <meta property="og:description" content="一、提要在本章节我们将在Qing上添加一些功能  声明变量 变量的打印 类型推断  而在本章节结束后，我们要达成的目标则是让如下的代码可以在Qing上运行 var name&#x3D;&quot;Qing&quot;  print name var year &#x3D; 2023print year  二、词法分析2.1、词法规则定义上一章，我们阐述了一个编程语言的三个模块，自然先到我们面前的就是第一个模块词法分析">
 <meta property="og:locale">
-<meta property="og:image" content="https://ezerror.com/2023/02/25/%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%9703-%E7%AC%AC%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81/lan_01.png">
-<meta property="og:image" content="https://ezerror.com/2023/02/25/%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%9703-%E7%AC%AC%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81/lan_01-1677767816233.png">
+<meta property="og:image" content="https://ezerror.com/2023/02/25/Qing03/_posts/Qing03/lan_01.png">
+<meta property="og:image" content="https://ezerror.com/2023/02/25/Qing03/_posts/Qing03/lan_01-1677767816233.png">
 <meta property="article:published_time" content="2023-02-25T10:06:03.000Z">
-<meta property="article:modified_time" content="2023-03-02T14:53:10.662Z">
+<meta property="article:modified_time" content="2023-03-02T15:22:47.899Z">
 <meta property="article:author" content="Ezerror">
 <meta property="article:tag" content="后端">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://ezerror.com/2023/02/25/%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%9703-%E7%AC%AC%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81/lan_01.png">
+<meta name="twitter:image" content="https://ezerror.com/2023/02/25/Qing03/_posts/Qing03/lan_01.png">
 
 	<meta name="theme-color" content="#5e72e4">
 	<meta name="theme-color-rgb" content="94,114,228">
@@ -559,13 +559,13 @@
 				<img class='post-thumbnail lazyload' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABBJREFUeNpi+P//PwNAgAEACPwC/tuiTRYAAAAASUVORK5CYII=' data-original='/assets/img/header_pic/Qing.png' alt='thumbnail'></img>
 				<div class='post-header-text-container'>
 			
-		<a class="post-title" href="/2023/02/25/%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%9703-%E7%AC%AC%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81/">开发日志03-第一行代码</a>
+		<a class="post-title" href="/2023/02/25/Qing03/">开发日志03-第一行代码</a>
 		<div class="post-meta">
 			
 						
 						<div class="post-meta-detail post-meta-detail-time">
 							<i class="fa fa-clock-o" aria-hidden="true"></i>
-							<time title="发布于 2023-2-25 18:06:03 | 编辑于 2023-3-2 22:53:10">2023-2-25 18:06
+							<time title="发布于 2023-2-25 18:06:03 | 编辑于 2023-3-2 23:22:47">2023-2-25 18:06
 							</time>
 						</div>
 					
@@ -623,10 +623,10 @@
 <h2 id="2-2、代码生成"><a href="#2-2、代码生成" class="headerlink" title="2.2、代码生成"></a>2.2、代码生成</h2><p>规则就这样被我们定义好了，现在我们需要运行<code>antlr</code>来帮我们生成Java代码，<code>antlr</code>执行程序你可以在官网或者github发布页面下载</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">antlr Qing.g4<br></code></pre></td></tr></table></figure>
 <p>不过我们是用IDEA来编写这个程序，更加方便的方式是使用<code>antlr</code>的插件来帮我们生成java代码<br>用插件的方式需要额外进行一些插件的配置</p>
-<p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/2023/02/25/%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%9703-%E7%AC%AC%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81/lan_01.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"></p>
+<p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/2023/02/25/Qing03/_posts/Qing03/lan_01.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"></p>
 
 <p>配置好了，现在我们可以生成代码了，执行<code>Generate ANTLR Recognizer</code>后<code>antlr</code>会在指定目录生成很多类，这些代码可以放在那里暂时不要管，我们来检验一下我们定义的规则是否有效，可以依照下图操作</p>
-<p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/2023/02/25/%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%9703-%E7%AC%AC%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81/lan_01-1677767816233.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"></p>
+<p><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/2023/02/25/Qing03/_posts/Qing03/lan_01-1677767816233.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"></p>
 
 <p>解析树成功展示出来了，表明了我们规则没有问题</p>
 <h1 id="三、解析、编译以及运行"><a href="#三、解析、编译以及运行" class="headerlink" title="三、解析、编译以及运行"></a>三、解析、编译以及运行</h1><h2 id="3-1、遍历解析树"><a href="#3-1、遍历解析树" class="headerlink" title="3.1、遍历解析树"></a>3.1、遍历解析树</h2><p>我们通过<code>antlr</code>工具生成了很多类，这里简单介绍一下</p>
@@ -729,7 +729,7 @@
 				<span class="btn-inner--icon"><i class="fa fa-twitter"></i></span>
 			</button>
 		</a>
-		<a target="_blank" class="no-pjax icon-telegram" href="https://telegram.me/share/url?url=https://ezerror.com/2023/02/25/%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%9703-%E7%AC%AC%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81/&text=开发日志03-第一行代码" tooltip="分享到 Telegram">
+		<a target="_blank" class="no-pjax icon-telegram" href="https://telegram.me/share/url?url=https://ezerror.com/2023/02/25/Qing03/&text=开发日志03-第一行代码" tooltip="分享到 Telegram">
 			<button class="btn btn-icon btn-primary" style="background: #42a5f5;border: none;">
 				<span class="btn-inner--icon"><i class="fa fa-telegram"></i></span>
 			</button>
@@ -756,7 +756,7 @@
 而在本章节结束后...',
 	    wechatQrcodeTitle : "分享到微信",
 	    wechatQrcodeHelper : '微信扫描二维码',
-	    source : 'https://ezerror.com/2023/02/25/%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%9703-%E7%AC%AC%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81/'
+	    source : 'https://ezerror.com/2023/02/25/Qing03/'
 	});
 	$("#share_show")[0].onclick = function(){
 		$("#share_container").addClass("opened");
@@ -805,7 +805,7 @@
 
 
 
-<div class="post-navigation card shadow-sm"><div class="post-navigation-item post-navigation-pre"></div><div class="post-navigation-item post-navigation-next"><span class="page-navigation-extra-text">下一篇 <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span><a href="/2023/02/21/%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%9702-%E9%A2%84%E6%9C%9F%E5%B7%A5%E4%BD%9C/" rel="next"> 开发日志02：预期工作</a></div></div>
+<div class="post-navigation card shadow-sm"><div class="post-navigation-item post-navigation-pre"></div><div class="post-navigation-item post-navigation-next"><span class="page-navigation-extra-text">下一篇 <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span><a href="/2023/02/21/Qing02/" rel="next"> 开发日志02：预期工作</a></div></div>
 
 
 
