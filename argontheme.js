@@ -1141,13 +1141,15 @@ function highlightJsRender(){
 		$(block).parent().addClass("hljs-codeblock");
 		$(block).attr("hljs-codeblock-inner", "");
 		let copyBtnID = "copy_btn_" + randomString();
+		$(block).parent().toggleClass("hljs-break-line");
+		$(block).parent().toggleClass("hljs-hide-linenumber");
 		$(block).parent().append(`<div class="hljs-control hljs-title">
-				<div class="hljs-control-btn hljs-control-toggle-linenumber" tooltip-hide-linenumber="` + __("隐藏行号") + `" tooltip-show-linenumber="` + __("显示行号") + `">
+				<!--<div class="hljs-control-btn hljs-control-toggle-linenumber" tooltip-hide-linenumber="` + __("隐藏行号") + `" tooltip-show-linenumber="` + __("显示行号") + `">
 					<i class="fa fa-list"></i>
 				</div>
 				<div class="hljs-control-btn hljs-control-toggle-break-line" tooltip-enable-breakline="` + __("开启折行") + `" tooltip-disable-breakline="` + __("关闭折行") + `">
 					<i class="fa fa-align-left"></i>
-				</div>
+				</div> -->
 				<div class="hljs-control-btn hljs-control-copy" id=` + copyBtnID + ` tooltip="` + __("复制") + `">
 					<i class="fa fa-clipboard"></i>
 				</div>
