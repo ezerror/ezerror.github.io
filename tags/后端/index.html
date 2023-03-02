@@ -418,7 +418,7 @@
 		
 			<p class="text-black mt-3 mb-0 opacity-8">
 				<i class="fa fa-file-o mr-1"></i>
-				3 篇文章
+				4 篇文章
 			</p>
 		
 	</div>
@@ -468,7 +468,7 @@
 							<nav class="site-state">
 								<div class="site-state-item site-state-posts">
 									<a href="/archives">
-										<span class="site-state-item-count">3</span>
+										<span class="site-state-item-count">5</span>
 										<span class="site-state-item-name">文章</span>
 									</a>
 								</div>
@@ -513,7 +513,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<a class="badge badge-secondary tag" href="/categories/%E5%8A%A8%E6%89%8B%E5%86%99%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/" rel="tag">动手写编程语言 <span class="tag-num">3</span></a>
+				<a class="badge badge-secondary tag" href="/categories/%E5%8A%A8%E6%89%8B%E5%86%99%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/" rel="tag">动手写编程语言 <span class="tag-num">4</span></a>
 			</div>
 		</div>
 	</div>
@@ -528,7 +528,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<a class="badge badge-secondary tag" href="/tags/Java/" rel="tag">Java <span class="tag-num">3</span></a><a class="badge badge-secondary tag" href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag">后端 <span class="tag-num">3</span></a>
+				<a class="badge badge-secondary tag" href="/tags/Java/" rel="tag">Java <span class="tag-num">4</span></a><a class="badge badge-secondary tag" href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag">后端 <span class="tag-num">4</span></a>
 			</div>
 		</div>
 	</div>
@@ -548,13 +548,86 @@
 				<img class='post-thumbnail lazyload' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABBJREFUeNpi+P//PwNAgAEACPwC/tuiTRYAAAAASUVORK5CYII=' data-original='/assets/img/header_pic/Qing.png' alt='thumbnail'></img>
 				<div class='post-header-text-container'>
 			
-		<a class="post-title" href="/2023/02/25/Qing03/">开发日志03-第一行代码</a>
+		<a class="post-title" href="/2023/02/26/Qing04/">开发日志04：实现类作用域</a>
 		<div class="post-meta">
 			
 						
 						<div class="post-meta-detail post-meta-detail-time">
 							<i class="fa fa-clock-o" aria-hidden="true"></i>
-							<time title="发布于 2023-2-25 18:06:03 | 编辑于 2023-3-2 23:22:47">2023-2-25 18:06
+							<time title="发布于 2023-2-26 17:06:03 | 编辑于 2023-3-2 23:31:53">2023-2-26 17:06
+							</time>
+						</div>
+					
+						
+							<div class="post-meta-devide">|</div>
+						
+						<div class="post-meta-detail post-meta-detail-categories">
+							<i class="fa fa-bookmark-o" aria-hidden="true"></i>
+							<a class="post-meta-detail-catagory-link" href="/categories/%E5%8A%A8%E6%89%8B%E5%86%99%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">动手写编程语言</a>
+						</div>
+					
+						
+							<div class="post-meta-devide">|</div>
+						
+						<div class="post-meta-detail post-meta-detail-words">
+							<i class="fa fa-book" aria-hidden="true"></i>
+							<span id="busuanzi_container_page_pv">
+								阅读<span id="busuanzi_value_page_pv"></span>次
+							</span>
+						</div>
+					
+						
+							<div class="post-meta-devide">|</div>
+						
+						<div class="post-meta-detail post-meta-detail-words">
+							<i class="fa fa-file-word-o" aria-hidden="true"></i>
+							599 字
+						</div>
+					
+						
+							<div class="post-meta-devide">|</div>
+						
+						<div class="post-meta-detail post-meta-detail-readingtime">
+							<i class="fa fa-hourglass-end" aria-hidden="true"></i>
+							2 分钟
+						</div>
+					
+		</div>
+		
+				</div>
+			
+	</header>
+
+	<div class="post-content">
+		
+			
+				在上一章，我们已经实现了一个语言的原型，在整个开发过程中，一个jvm语言的形成方案已经很明了，我们需要将原始代码编译为class字节码文件，后续的工作也随之清晰了，我们需要对Qing的语法进行不断扩充，使它可以承担更多的功能而第一个需要扩充的语法显然是类作用域的定义在java的语法中，我们需要通过Class关键字来定义，类似这种Class Dog ...
+			
+		
+	</div>
+
+	
+		<div class="post-tags">
+			<i class="fa fa-tags" aria-hidden="true"></i>
+			<a class="tag badge badge-secondary post-meta-detail-tag -none-link" href="/tags/Java/" rel="tag">Java</a><a class="tag badge badge-secondary post-meta-detail-tag -none-link" href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag">后端</a>
+		</div>
+	
+</article>
+
+
+	<article class="post card bg-white shadow-sm border-0 ">
+	<header class="post-header text-center post-header-with-thumbnail">
+		
+				<img class='post-thumbnail lazyload' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABBJREFUeNpi+P//PwNAgAEACPwC/tuiTRYAAAAASUVORK5CYII=' data-original='/assets/img/header_pic/Qing.png' alt='thumbnail'></img>
+				<div class='post-header-text-container'>
+			
+		<a class="post-title" href="/2023/02/25/Qing03/">开发日志03：第一行代码</a>
+		<div class="post-meta">
+			
+						
+						<div class="post-meta-detail post-meta-detail-time">
+							<i class="fa fa-clock-o" aria-hidden="true"></i>
+							<time title="发布于 2023-2-25 18:06:03 | 编辑于 2023-3-2 23:27:28">2023-2-25 18:06
 							</time>
 						</div>
 					

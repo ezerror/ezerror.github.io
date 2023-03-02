@@ -8,16 +8,21 @@
 	
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	
-	<meta name="description" content="听闻栈声 - 观察未来的网络日志">
-<meta property="og:type" content="website">
+	<meta name="description" content="我们上一章成功给Qing加上了类定义的实现，不过随着类定义功能的加入，代码似乎开始变得有些混乱了，为什么这么说呢，主要是依据以下几点  通过Listener来实现，我们是在遍历的过程中进行回调，可以看到所有的处理方法都是void方法，如果想要获取某一个Token的结果，只能维护中间变量进行处理，可以预想如果后续语义进一步补充之后，这些中间变量的编排和使用会是一个很大问题 相同Token的处理会比较">
+<meta property="og:type" content="article">
 <meta property="og:title" content="听闻栈声">
-<meta property="og:url" content="https://ezerror.com/index.html">
+<meta property="og:url" content="https://ezerror.com/2023/03/02/Qing05/index.html">
 <meta property="og:site_name" content="听闻栈声">
-<meta property="og:description" content="听闻栈声 - 观察未来的网络日志">
+<meta property="og:description" content="我们上一章成功给Qing加上了类定义的实现，不过随着类定义功能的加入，代码似乎开始变得有些混乱了，为什么这么说呢，主要是依据以下几点  通过Listener来实现，我们是在遍历的过程中进行回调，可以看到所有的处理方法都是void方法，如果想要获取某一个Token的结果，只能维护中间变量进行处理，可以预想如果后续语义进一步补充之后，这些中间变量的编排和使用会是一个很大问题 相同Token的处理会比较">
 <meta property="og:locale">
+<meta property="og:image" content="https://ezerror.com/2023/03/02/Qing05/Visitor.png">
+<meta property="og:image" content="https://ezerror.com/2023/03/02/Qing05/Listener.png">
+<meta property="article:published_time" content="2023-03-02T15:34:15.477Z">
+<meta property="article:modified_time" content="2023-03-02T15:34:57.136Z">
 <meta property="article:author" content="Ezerror">
 <meta property="article:tag" content="Java,blog">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ezerror.com/2023/03/02/Qing05/Visitor.png">
 
 	<meta name="theme-color" content="#5e72e4">
 	<meta name="theme-color-rgb" content="94,114,228">
@@ -425,7 +430,7 @@
 			
 			
 				<ul id='leftbar_part1_menu' class='leftbar-menu'>
-					<li class='leftbar-menu-item current'><a href='/'>首页</a></li><li class='leftbar-menu-item'><a href='/archives'>归档</a></li>
+					<li class='leftbar-menu-item'><a href='/'>首页</a></li><li class='leftbar-menu-item'><a href='/archives'>归档</a></li>
 				</ul>
 			
 			<div class="card-body text-center leftbar-search-button">
@@ -437,18 +442,39 @@
 		<div id="leftbar_part2" class="widget widget_search card bg-white shadow-sm border-0">
 			<div id="leftbar_part2_inner" class="card-body">
 				
-				<div class="nav-wrapper" style="padding-top: 5px; display:none; ">
+				<div class="nav-wrapper" style="padding-top: 5px;">
 	                <ul class="nav nav-pills nav-fill" role="tablist">
 						
+							<li class="nav-item sidebar-tab-switcher">
+								<a class="active show" id="leftbar_tab_catalog_btn" data-toggle="tab" href="#leftbar_tab_catalog" role="tab" aria-controls="leftbar_tab_catalog" no-pjax>文章目录</a>
+							</li>
+						
 						<li class="nav-item sidebar-tab-switcher">
-							<a class="active show" id="leftbar_tab_overview_btn" data-toggle="tab" href="#leftbar_tab_overview" role="tab" aria-controls="leftbar_tab_overview" no-pjax>站点概览</a>
+							<a class="" id="leftbar_tab_overview_btn" data-toggle="tab" href="#leftbar_tab_overview" role="tab" aria-controls="leftbar_tab_overview" no-pjax>站点概览</a>
 						</li>
 	                </ul>
 				</div>
 				<div>
 					<div class="tab-content" style="padding: 10px 10px 0 10px;">
 						
-						<div class="tab-pane fade text-center active show" id="leftbar_tab_overview" role="tabpanel" aria-labelledby="leftbar_tab_overview_btn">
+							<div class="tab-pane fade active show" id="leftbar_tab_catalog" role="tabpanel" aria-labelledby="leftbar_tab_catalog_btn">
+								<div id="leftbar_catalog"></div>
+								<script type="text/javascript">
+									$(function () {
+										$(document).headIndex({
+											articleWrapSelector: '#post_content',
+											indexBoxSelector: '#leftbar_catalog',
+											subItemBoxClass: "index-subItem-box",
+											itemClass: "index-item",
+											linkClass: "index-link",
+											offset: 80,
+										});
+									})
+								</script>
+								
+							</div>
+						
+						<div class="tab-pane fade text-center" id="leftbar_tab_overview" role="tabpanel" aria-labelledby="leftbar_tab_overview_btn">
 							<img id="leftbar_overview_author_image" src="/assets/img/avatar.png" class="img-fluid rounded-circle shadow-sm" style="width: 100px;" alt="avatar">
 							<h6 id="leftbar_overview_author_name">听闻栈声</h6>
 							<nav class="site-state">
@@ -524,8 +550,9 @@
 <div id="primary" class="content-area">
 	<main id="main" class="site-main" role="main">
 		
+		
 			
-	<article class="post card bg-white shadow-sm border-0 ">
+	<article class="post post-full card bg-white shadow-sm border-0 ">
 	<header class="post-header text-center">
 		
 		<a class="post-title" href="/2023/03/02/Qing05/"></a>
@@ -542,7 +569,7 @@
 							<div class="post-meta-devide">|</div>
 						
 						<div class="post-meta-detail post-meta-detail-words">
-							<i class="fa fa-book" aria-hidden="true"></i>
+							<i class="fa fa fa-book" aria-hidden="true"></i>
 							<span id="busuanzi_container_page_pv">
 								阅读<span id="busuanzi_value_page_pv"></span>次
 							</span>
@@ -568,342 +595,145 @@
 		
 	</header>
 
-	<div class="post-content">
-		
-			
-				我们上一章成功给Qing加上了类定义的实现，不过随着类定义功能的加入，代码似乎开始变得有些混乱了，为什么这么说呢，主要是依据以下几点
+	<div class="post-content" id="post_content">
+		<p>我们上一章成功给<code>Qing</code>加上了<strong>类定义</strong>的实现，不过随着类定义功能的加入，代码似乎开始变得有些混乱了，为什么这么说呢，主要是依据以下几点<img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/2023/03/02/Qing05/Visitor.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="Visitor"></p>
 
-通过Listener来实现，我们是在遍历的过程中进行回调，可以看到所有的处理方法都是void方法，如果想要获取某一个Token的结果，只能维护中间变量进行处理，可以预想如果后续语义进一步补充之后，这些中间变量的编排...
-			
-		
+<ol>
+<li>通过<code>Listener</code>来实现，我们是在遍历的过程中进行回调，可以看到所有的处理方法都是<code>void</code>方法，如果想要获取某一个<code>Token</code>的结果，只能维护中间变量进行处理，可以预想如果后续语义进一步补充之后，这些中间变量的编排和使用会是一个很大问题</li>
+<li>相同<code>Token</code>的处理会比较复杂，比如定义变量的语句可以在很多地方出现(方法域中、类成员变量…)，而出现在不同的地方实际是要用不同的方式编译的，这样就导致相同的<code>Token</code>需要分离处理，会比较麻烦</li>
+</ol>
+<p>为了解决上述的问题，我们使用之前一直没用到的<code>Visitor</code>进行重构处理，他和<code>Listener</code>相比一个有点就是有了返回值，我们可以通过迭代调用的方式组装数据了<br><img class="lazyload lazyload-style-1" src="data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+"  data-original="/2023/03/02/Qing05/Listener.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="Listener"></p>
+
+<ul>
+<li><p>定义类访问器，这个访问器访问类定义上下文并返回<code>ClassDeclaration</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClassVisitor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">QingBaseVisitor</span>&lt;ClassDeclaration&gt; &#123;<br><br>    <span class="hljs-keyword">private</span> Map&lt;String, Variable&gt; variableMap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> ClassDeclaration <span class="hljs-title function_">visitClassDeclaration</span><span class="hljs-params">(QingParser.ClassDeclarationContext ctx)</span> &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">name</span> <span class="hljs-operator">=</span> ctx.className().getText();<br>        <span class="hljs-type">ClassDeclaration</span> <span class="hljs-variable">classDeclaration</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClassDeclaration</span>(name);<br>        QingParser.<span class="hljs-type">ClassBodyContext</span> <span class="hljs-variable">classBodyContext</span> <span class="hljs-operator">=</span> ctx.classBody();<br>        Queue&lt;Instruction&gt; instructionsQueue = classBodyContext.children.stream().map(visitStatement())<br>            .collect(Collectors.toCollection(<br>                (Supplier&lt;Queue&lt;Instruction&gt;&gt;) ArrayDeque::<span class="hljs-keyword">new</span><br>            ));<br>        classDeclaration.setInstructionsQueue(instructionsQueue);<br>        <span class="hljs-keyword">return</span> classDeclaration;<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> Function&lt;ParseTree, Instruction&gt; <span class="hljs-title function_">visitStatement</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">VariableVisitor</span> <span class="hljs-variable">variableVisitor</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">VariableVisitor</span>(variableMap);<br>        <span class="hljs-type">PrintVisitor</span> <span class="hljs-variable">printVisitor</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">PrintVisitor</span>(variableMap);<br>        <span class="hljs-keyword">return</span> a -&gt; &#123;<br>            <span class="hljs-keyword">if</span> (a <span class="hljs-keyword">instanceof</span> QingParser.VariableContext) &#123;<br>                <span class="hljs-keyword">return</span>  a.accept(variableVisitor);<br>            &#125;<br>            <span class="hljs-keyword">if</span> (a <span class="hljs-keyword">instanceof</span> QingParser.PrintContext) &#123;<br>                <span class="hljs-keyword">return</span>  a.accept(printVisitor);<br>            &#125;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(<span class="hljs-string">&quot;存在语句未识别&quot;</span>);<br>        &#125;;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>变量定义以及变量打印访问器，代码基本只是换了一个结构</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">PrintVisitor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">QingBaseVisitor</span>&lt;Instruction&gt; &#123;<br><br>  <span class="hljs-keyword">private</span> Map&lt;String,Variable&gt; variableMap;<br><br>  <span class="hljs-keyword">public</span> <span class="hljs-title function_">PrintVisitor</span><span class="hljs-params">(Map&lt;String, Variable&gt; variableMap)</span> &#123;<br>    <span class="hljs-built_in">this</span>.variableMap = variableMap;<br>  &#125;<br><br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-keyword">public</span> Instruction <span class="hljs-title function_">visitPrint</span><span class="hljs-params">(QingParser.PrintContext ctx)</span> &#123;<br>    <span class="hljs-keyword">final</span> <span class="hljs-type">TerminalNode</span> <span class="hljs-variable">varName</span> <span class="hljs-operator">=</span> ctx.ID();<br>    <span class="hljs-type">boolean</span> <span class="hljs-variable">printedVarNotDeclared</span> <span class="hljs-operator">=</span> !variableMap.containsKey(varName.getText());<br>    <span class="hljs-keyword">if</span> (printedVarNotDeclared) &#123;<br>      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(String.format(<span class="hljs-string">&quot;你要打印的变量%s从未定义过&quot;</span>, varName.getText()));<br>    &#125;<br>    <span class="hljs-keyword">final</span> <span class="hljs-type">Variable</span> <span class="hljs-variable">variable</span> <span class="hljs-operator">=</span> variableMap.get(varName.getText());<br>    log.info(<span class="hljs-string">&quot;你要打印一个变量,变量名为&#123;&#125;,实际值为&#123;&#125;&quot;</span>, varName.getText(), variableMap.get(varName.getText()).getValue());<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">PrintVariableInstruction</span>(variable);<br>  &#125;<br><br>  <br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">VariableVisitor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">QingBaseVisitor</span>&lt;Instruction&gt; &#123;<br>  <br>  <span class="hljs-keyword">private</span> Map&lt;String,Variable&gt; variableMap;<br><br>  <span class="hljs-keyword">public</span> <span class="hljs-title function_">VariableVisitor</span><span class="hljs-params">(Map&lt;String, Variable&gt; variableMap)</span> &#123;<br>    <span class="hljs-built_in">this</span>.variableMap = variableMap;<br>  &#125;<br><br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-keyword">public</span> Instruction <span class="hljs-title function_">visitVariable</span><span class="hljs-params">(QingParser.VariableContext ctx)</span> &#123;<br>    <span class="hljs-keyword">final</span> <span class="hljs-type">TerminalNode</span> <span class="hljs-variable">varName</span> <span class="hljs-operator">=</span> ctx.ID();<br>    <span class="hljs-keyword">final</span> QingParser.<span class="hljs-type">ValueContext</span> <span class="hljs-variable">varValue</span> <span class="hljs-operator">=</span> ctx.value();<br>    <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">varType</span> <span class="hljs-operator">=</span> varValue.getStart().getType();<br>    <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">varIndex</span> <span class="hljs-operator">=</span> variableMap.size();<br>    <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">varTextValue</span> <span class="hljs-operator">=</span> varValue.getText();<br>    <span class="hljs-type">Variable</span> <span class="hljs-variable">var</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Variable</span>(varIndex, varType, varTextValue);<br>    <span class="hljs-keyword">if</span> (variableMap.containsKey(varName.getText())) &#123;<br>      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(String.format(<span class="hljs-string">&quot;你要定义变量%s，这个变量已经定义过了&quot;</span>, varName.getText()));<br>    &#125;<br>    variableMap.put(varName.getText(), <span class="hljs-keyword">var</span>);<br>    log.info(<span class="hljs-string">&quot;你定义了一个变量，变量名为&#123;&#125;，它的值为&#123;&#125;&quot;</span>, varName.getText(), varValue.getText());<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">VariableDeclarationInstruction</span>(<span class="hljs-keyword">var</span>);<br>  &#125;<br>  <br>  <br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+
 	</div>
+
+	
+
+	
 
 	
 </article>
 
-
-	<article class="post card bg-white shadow-sm border-0 ">
-	<header class="post-header text-center post-header-with-thumbnail">
-		
-				<img class='post-thumbnail lazyload' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABBJREFUeNpi+P//PwNAgAEACPwC/tuiTRYAAAAASUVORK5CYII=' data-original='/assets/img/header_pic/Qing.png' alt='thumbnail'></img>
-				<div class='post-header-text-container'>
-			
-		<a class="post-title" href="/2023/02/26/Qing04/">开发日志04：实现类作用域</a>
-		<div class="post-meta">
-			
-						
-						<div class="post-meta-detail post-meta-detail-time">
-							<i class="fa fa-clock-o" aria-hidden="true"></i>
-							<time title="发布于 2023-2-26 17:06:03 | 编辑于 2023-3-2 23:31:53">2023-2-26 17:06
-							</time>
-						</div>
-					
-						
-							<div class="post-meta-devide">|</div>
-						
-						<div class="post-meta-detail post-meta-detail-categories">
-							<i class="fa fa-bookmark-o" aria-hidden="true"></i>
-							<a class="post-meta-detail-catagory-link" href="/categories/%E5%8A%A8%E6%89%8B%E5%86%99%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">动手写编程语言</a>
-						</div>
-					
-						
-							<div class="post-meta-devide">|</div>
-						
-						<div class="post-meta-detail post-meta-detail-words">
-							<i class="fa fa-book" aria-hidden="true"></i>
-							<span id="busuanzi_container_page_pv">
-								阅读<span id="busuanzi_value_page_pv"></span>次
-							</span>
-						</div>
-					
-						
-							<div class="post-meta-devide">|</div>
-						
-						<div class="post-meta-detail post-meta-detail-words">
-							<i class="fa fa-file-word-o" aria-hidden="true"></i>
-							599 字
-						</div>
-					
-						
-							<div class="post-meta-devide">|</div>
-						
-						<div class="post-meta-detail post-meta-detail-readingtime">
-							<i class="fa fa-hourglass-end" aria-hidden="true"></i>
-							2 分钟
-						</div>
-					
-		</div>
-		
-				</div>
-			
-	</header>
-
-	<div class="post-content">
-		
-			
-				在上一章，我们已经实现了一个语言的原型，在整个开发过程中，一个jvm语言的形成方案已经很明了，我们需要将原始代码编译为class字节码文件，后续的工作也随之清晰了，我们需要对Qing的语法进行不断扩充，使它可以承担更多的功能而第一个需要扩充的语法显然是类作用域的定义在java的语法中，我们需要通过Class关键字来定义，类似这种Class Dog ...
-			
-		
+	<div id="share_container">
+	<div id="share" data-initialized="true">
+		<a class="no-pjax icon-wechat" tooltip="分享到微信">
+			<button class="btn btn-icon btn-success">
+				<span class="btn-inner--icon"><i class="fa fa-weixin"></i></span>
+			</button>
+		</a>
+		<a target="_blank" class="no-pjax icon-douban" tooltip="分享到豆瓣">
+			<button class="btn btn-icon btn-primary" style="background: #209261;border: none;">
+				豆
+			</button>
+		</a>
+		<a target="_blank" class="no-pjax icon-qq" tooltip="分享到 QQ">
+			<button class="btn btn-icon btn-primary" style="background: #2196f3;border: none;">
+				<span class="btn-inner--icon"><i class="fa fa-qq"></i></span>
+			</button>
+		</a>
+		<a target="_blank" class="no-pjax icon-qzone" tooltip="分享到 QQ 空间">
+			<button class="btn btn-icon btn-primary" style="background: #ffc107;border: none;">
+				<span class="btn-inner--icon"><i class="fa fa-star"></i></span>
+			</button>
+		</a>
+		<a target="_blank" class="no-pjax icon-weibo" tooltip="分享到微博">
+			<button class="btn btn-icon btn-warning">
+				<span class="btn-inner--icon"><i class="fa fa-weibo"></i></span>
+			</button>
+		</a>
+		<a target="_blank" class="no-pjax icon-facebook" tooltip="分享到 Facebook">
+			<button class="btn btn-icon btn-primary" style="background: #283593;border: none;">
+				<span class="btn-inner--icon"><i class="fa fa-facebook"></i></span>
+			</button>
+		</a>
+		<a target="_blank" class="no-pjax icon-twitter" tooltip="分享到 Twitter">
+			<button class="btn btn-icon btn-primary" style="background: #03a9f4;border: none;">
+				<span class="btn-inner--icon"><i class="fa fa-twitter"></i></span>
+			</button>
+		</a>
+		<a target="_blank" class="no-pjax icon-telegram" href="https://telegram.me/share/url?url=https://ezerror.com/2023/03/02/Qing05/&text=" tooltip="分享到 Telegram">
+			<button class="btn btn-icon btn-primary" style="background: #42a5f5;border: none;">
+				<span class="btn-inner--icon"><i class="fa fa-telegram"></i></span>
+			</button>
+		</a>
+		<a target="_blank" class="no-pjax icon-copy-link" id="share_copy_link" tooltip="复制链接">
+			<button class="btn btn-icon btn-default">
+				<span class="btn-inner--icon"><i class="fa fa-link"></i></span>
+			</button>
+		</a>
 	</div>
-
-	
-		<div class="post-tags">
-			<i class="fa fa-tags" aria-hidden="true"></i>
-			<a class="tag badge badge-secondary post-meta-detail-tag -none-link" href="/tags/Java/" rel="tag">Java</a><a class="tag badge badge-secondary post-meta-detail-tag -none-link" href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag">后端</a>
-		</div>
-	
-</article>
-
-
-	<article class="post card bg-white shadow-sm border-0 ">
-	<header class="post-header text-center post-header-with-thumbnail">
-		
-				<img class='post-thumbnail lazyload' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABBJREFUeNpi+P//PwNAgAEACPwC/tuiTRYAAAAASUVORK5CYII=' data-original='/assets/img/header_pic/Qing.png' alt='thumbnail'></img>
-				<div class='post-header-text-container'>
-			
-		<a class="post-title" href="/2023/02/25/Qing03/">开发日志03：第一行代码</a>
-		<div class="post-meta">
-			
-						
-						<div class="post-meta-detail post-meta-detail-time">
-							<i class="fa fa-clock-o" aria-hidden="true"></i>
-							<time title="发布于 2023-2-25 18:06:03 | 编辑于 2023-3-2 23:27:28">2023-2-25 18:06
-							</time>
-						</div>
-					
-						
-							<div class="post-meta-devide">|</div>
-						
-						<div class="post-meta-detail post-meta-detail-categories">
-							<i class="fa fa-bookmark-o" aria-hidden="true"></i>
-							<a class="post-meta-detail-catagory-link" href="/categories/%E5%8A%A8%E6%89%8B%E5%86%99%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">动手写编程语言</a>
-						</div>
-					
-						
-							<div class="post-meta-devide">|</div>
-						
-						<div class="post-meta-detail post-meta-detail-words">
-							<i class="fa fa-book" aria-hidden="true"></i>
-							<span id="busuanzi_container_page_pv">
-								阅读<span id="busuanzi_value_page_pv"></span>次
-							</span>
-						</div>
-					
-						
-							<div class="post-meta-devide">|</div>
-						
-						<div class="post-meta-detail post-meta-detail-words">
-							<i class="fa fa-file-word-o" aria-hidden="true"></i>
-							2.8k 字
-						</div>
-					
-						
-							<div class="post-meta-devide">|</div>
-						
-						<div class="post-meta-detail post-meta-detail-readingtime">
-							<i class="fa fa-hourglass-end" aria-hidden="true"></i>
-							12 分钟
-						</div>
-					
-		</div>
-		
-				</div>
-			
-	</header>
-
-	<div class="post-content">
-		
-			
-				一、提要在本章节我们将在Qing上添加一些功能
-
-声明变量
-变量的打印
-类型推断
-
-而在本章节结束后，我们要达成的目标则是让如下的代码可以在Qing上运行
-var name=&quot;Qing&quot;  print name var year = 2023print year 
-二、词法分析2.1、词法规则定义上一章，我们阐述了一个编程语言的...
-			
-		
-	</div>
-
-	
-		<div class="post-tags">
-			<i class="fa fa-tags" aria-hidden="true"></i>
-			<a class="tag badge badge-secondary post-meta-detail-tag -none-link" href="/tags/Java/" rel="tag">Java</a><a class="tag badge badge-secondary post-meta-detail-tag -none-link" href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag">后端</a>
-		</div>
-	
-</article>
-
-
-	<article class="post card bg-white shadow-sm border-0 ">
-	<header class="post-header text-center post-header-with-thumbnail">
-		
-				<img class='post-thumbnail lazyload' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABBJREFUeNpi+P//PwNAgAEACPwC/tuiTRYAAAAASUVORK5CYII=' data-original='/assets/img/header_pic/Qing.png' alt='thumbnail'></img>
-				<div class='post-header-text-container'>
-			
-		<a class="post-title" href="/2023/02/21/Qing02/">开发日志02：预期工作</a>
-		<div class="post-meta">
-			
-						
-						<div class="post-meta-detail post-meta-detail-time">
-							<i class="fa fa-clock-o" aria-hidden="true"></i>
-							<time title="发布于 2023-2-21 1:22:03 | 编辑于 2023-3-2 2:39:16">2023-2-21 1:22
-							</time>
-						</div>
-					
-						
-							<div class="post-meta-devide">|</div>
-						
-						<div class="post-meta-detail post-meta-detail-categories">
-							<i class="fa fa-bookmark-o" aria-hidden="true"></i>
-							<a class="post-meta-detail-catagory-link" href="/categories/%E5%8A%A8%E6%89%8B%E5%86%99%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">动手写编程语言</a>
-						</div>
-					
-						
-							<div class="post-meta-devide">|</div>
-						
-						<div class="post-meta-detail post-meta-detail-words">
-							<i class="fa fa-book" aria-hidden="true"></i>
-							<span id="busuanzi_container_page_pv">
-								阅读<span id="busuanzi_value_page_pv"></span>次
-							</span>
-						</div>
-					
-						
-							<div class="post-meta-devide">|</div>
-						
-						<div class="post-meta-detail post-meta-detail-words">
-							<i class="fa fa-file-word-o" aria-hidden="true"></i>
-							498 字
-						</div>
-					
-						
-							<div class="post-meta-devide">|</div>
-						
-						<div class="post-meta-detail post-meta-detail-readingtime">
-							<i class="fa fa-hourglass-end" aria-hidden="true"></i>
-							1 分钟
-						</div>
-					
-		</div>
-		
-				</div>
-			
-	</header>
-
-	<div class="post-content">
-		
-			
-				完成一个编程语言需要做什么？我们把整个编程语言的工作抽象一下，编程语言需要干什么？
-
-我们在一个文本中写了几行代码，然后通过编译器将它编译成了字节码文件去执行，那么我们的工作其实就是要把文本转化为字节码，说起来很轻松，但是实际上需要解决很多问题
-
-在实际的实现中，我们大致可以分为三个部分
-
-
-
-模块
-输入
-输出
-
-
-
-词法分析器(Lexer)
-代码...
-			
-		
-	</div>
-
-	
-		<div class="post-tags">
-			<i class="fa fa-tags" aria-hidden="true"></i>
-			<a class="tag badge badge-secondary post-meta-detail-tag -none-link" href="/tags/Java/" rel="tag">Java</a><a class="tag badge badge-secondary post-meta-detail-tag -none-link" href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag">后端</a>
-		</div>
-	
-</article>
-
-
-	<article class="post card bg-white shadow-sm border-0 ">
-	<header class="post-header text-center post-header-with-thumbnail">
-		
-				<img class='post-thumbnail lazyload' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABBJREFUeNpi+P//PwNAgAEACPwC/tuiTRYAAAAASUVORK5CYII=' data-original='/assets/img/header_pic/Qing.png' alt='thumbnail'></img>
-				<div class='post-header-text-container'>
-			
-		<a class="post-title" href="/2023/02/17/Qing01/">开发日志01：创建一个新的编程语言</a>
-		<div class="post-meta">
-			
-						
-						<div class="post-meta-detail post-meta-detail-time">
-							<i class="fa fa-clock-o" aria-hidden="true"></i>
-							<time title="发布于 2023-2-17 23:07:23 | 编辑于 2023-3-2 2:28:03">2023-2-17 23:07
-							</time>
-						</div>
-					
-						
-							<div class="post-meta-devide">|</div>
-						
-						<div class="post-meta-detail post-meta-detail-categories">
-							<i class="fa fa-bookmark-o" aria-hidden="true"></i>
-							<a class="post-meta-detail-catagory-link" href="/categories/%E5%8A%A8%E6%89%8B%E5%86%99%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">动手写编程语言</a>
-						</div>
-					
-						
-							<div class="post-meta-devide">|</div>
-						
-						<div class="post-meta-detail post-meta-detail-words">
-							<i class="fa fa-book" aria-hidden="true"></i>
-							<span id="busuanzi_container_page_pv">
-								阅读<span id="busuanzi_value_page_pv"></span>次
-							</span>
-						</div>
-					
-						
-							<div class="post-meta-devide">|</div>
-						
-						<div class="post-meta-detail post-meta-detail-words">
-							<i class="fa fa-file-word-o" aria-hidden="true"></i>
-							426 字
-						</div>
-					
-						
-							<div class="post-meta-devide">|</div>
-						
-						<div class="post-meta-detail post-meta-detail-readingtime">
-							<i class="fa fa-hourglass-end" aria-hidden="true"></i>
-							1 分钟
-						</div>
-					
-		</div>
-		
-				</div>
-			
-	</header>
-
-	<div class="post-content">
-		
-			
-				我打算开始从零开始编写一个编程语言，因为我的主编程语言是Java，所以我打算做一个类似kotlin或者scala的jvm语言，这有一个好处，那就是这个语言诞生之初就可以调用很多Java的库，相当于为它赋予了一定的生产能力，当然这个语言并不一定要有实际价值，不过创建语言的这个过程一定会很有意义为什么选择做JVM语言 ：
-
-我熟悉Java，用Java来...
-			
-		
-	</div>
-
-	
-		<div class="post-tags">
-			<i class="fa fa-tags" aria-hidden="true"></i>
-			<a class="tag badge badge-secondary post-meta-detail-tag -none-link" href="/tags/Java/" rel="tag">Java</a><a class="tag badge badge-secondary post-meta-detail-tag -none-link" href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag">后端</a>
-		</div>
-	
-</article>
+	<button id="share_show" class="btn btn-icon btn-primary" tooltip="分享">
+		<span class="btn-inner--icon"><i class="fa fa-share"></i></span>
+	</button>
+</div>
+<script type="text/javascript">
+	socialShare("#share", {
+	    title : '',
+	    description : '我们上一章成功给Qing加上了类定义的实现，不过随着类定义功能的加入，代码似乎开始变得有些混乱了，为...',
+	    wechatQrcodeTitle : "分享到微信",
+	    wechatQrcodeHelper : '微信扫描二维码',
+	    source : 'https://ezerror.com/2023/03/02/Qing05/'
+	});
+	$("#share_show")[0].onclick = function(){
+		$("#share_container").addClass("opened");
+	};
+	$("#share_copy_link")[0].onclick = function(){
+		let input = document.createElement('input');
+		document.body.appendChild(input);
+		input.setAttribute("value", window.location.href);
+		input.setAttribute("readonly", "readonly");
+		input.setAttribute("style", "opacity: 0;mouse-events:none;");
+		input.select();
+		if (document.execCommand('copy')){
+			iziToast.show({
+				title: '链接已复制',
+				message: "链接已复制到剪贴板",
+				class: 'shadow',
+				position: 'topRight',
+				backgroundColor: '#2dce89',
+				titleColor: '#ffffff',
+				messageColor: '#ffffff',
+				iconColor: '#ffffff',
+				progressBarColor: '#ffffff',
+				icon: 'fa fa-check',
+				timeout: 5000
+			});
+		}else{
+			iziToast.show({
+				title: '复制失败',
+				message: "请手动复制链接",
+				class: 'shadow',
+				position: 'topRight',
+				backgroundColor: '#f5365c',
+				titleColor: '#ffffff',
+				messageColor: '#ffffff',
+				iconColor: '#ffffff',
+				progressBarColor: '#ffffff',
+				icon: 'fa fa-close',
+				timeout: 5000
+			});
+		}
+		document.body.removeChild(input);
+	};
+</script>
 
 
 
 
 
+<div class="post-navigation card shadow-sm"><div class="post-navigation-item post-navigation-pre"></div><div class="post-navigation-item post-navigation-next"><span class="page-navigation-extra-text">下一篇 <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span><a href="/2023/02/26/Qing04/" rel="next"> 开发日志04：实现类作用域</a></div></div>
 
-		
+
+
+
 		
 		
 		
